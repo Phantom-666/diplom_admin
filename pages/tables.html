@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ресторан - Резервирование столиков</title>
+    <style>
+      /* Стили для таблицы */
+      header {
+        background-color: #333;
+        padding: 20px;
+        color: #fff;
+      }
+
+      h1 {
+        margin: 0;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      nav ul li {
+        float: left;
+      }
+
+      nav ul li a {
+        display: block;
+        color: #fff;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      nav ul li a:hover {
+        background-color: #555;
+      }
+      main {
+        padding: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Ресторан</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Заказы</a></li>
+          <li><a href="/tables">Резервирование столиков</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Резервирование столиков</h2>
+
+      <table id="table">
+        <thead>
+          <tr>
+            <th>Номер брони</th>
+            <th>Столик</th>
+            <th>Имя</th>
+            <th>Дата</th>
+            <th>Время</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Здесь можно использовать шаблонный язык или JavaScript для динамического заполнения данных -->
+
+          <!-- Продолжайте добавлять строки для каждой брони -->
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
+
+<script>
+  const fetchTables = async () => {
+    const table = document.querySelector('#table')
+
+    const thead = table.querySelector('thead')
+    const tbody = table.querySelector('tbody')
+
+    const req = await fetch('/tables', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify({ id: 78912 }),
+    })
+
+    const { data } = await req.json()
+
+    Object.keys(data).map((k, i) => {
+      tbody.innerHTML += ` <tr>
+            <td>${i + 1}</td>
+            <td>${data[k].table}</td>
+            <td>${data[k].name}</td>
+            <td>${data[k].date}</td>
+            <td>${data[k].time}</td>
+          </tr>`
+    })
+  }
+
+  fetchTables()
+</script>
