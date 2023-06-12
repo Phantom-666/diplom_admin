@@ -143,10 +143,26 @@
     const { data } = await req.json()
 
     Object.keys(data).map((k, i) => {
+      const cartObj = {}
+
+      const splitted = data[k].cart.split(', ')
+
+      splitted.map((p) => {
+        if (!cartObj[p]) {
+          cartObj[p] = 1
+        } else cartObj[p] += 1
+      })
+
+      let cartStr = ''
+
+      Object.keys(cartObj).map((pK) => {
+        cartStr += `${pK}: ${cartObj[pK]}<br/>`
+      })
+
       tbody.innerHTML += `<tr>
             <td>${i + 1}</td>
             <td>${data[k].id}</td>
-            <td>${data[k].cart}</td>
+            <td>${cartStr}</td>
             <td>${data[k].price}</td>
             <td>Доставляется</td>
           </tr>
@@ -181,12 +197,28 @@
     const { data } = await req.json()
 
     Object.keys(data).map((k, i) => {
+      const cartObj = {}
+
+      const splitted = data[k].cart.split(', ')
+
+      splitted.map((p) => {
+        if (!cartObj[p]) {
+          cartObj[p] = 1
+        } else cartObj[p] += 1
+      })
+
+      let cartStr = ''
+
+      Object.keys(cartObj).map((pK) => {
+        cartStr += `${pK}: ${cartObj[pK]}<br/>`
+      })
+
       tbody.innerHTML += `
       <tr>
             <td>${i + 1}</td>
             <td>Столик ${data[k].tableName}</td>
             <td>${data[k].id}</td>
-            <td>${data[k].cart}</td>
+            <td>${cartStr}</td>
             <td>${data[k].date} ${data[k].time}</td>
             <td>${data[k].price}</td>
             <td>Готовится</td>
